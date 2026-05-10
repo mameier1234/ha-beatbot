@@ -8,7 +8,7 @@
           "email": "E-Mail",
           "password": "Passwort",
           "region": "Region",
-          "country_code": "Ländercode (z.B. DE, US)"
+          "country_code": "Telefonvorwahl (z.B. 49 für DE, 1 für US)"
         }
       }
     },

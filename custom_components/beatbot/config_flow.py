@@ -21,7 +21,7 @@ STEP_USER_SCHEMA = vol.Schema(
         vol.Required(CONF_EMAIL): str,
         vol.Required(CONF_PASSWORD): str,
         vol.Required(CONF_REGION, default="EU"): vol.In(list(REGIONS.keys())),
-        vol.Required(CONF_COUNTRY_CODE, default="DE"): str,
+        vol.Required(CONF_COUNTRY_CODE, default="49"): str,
     }
 )
 
