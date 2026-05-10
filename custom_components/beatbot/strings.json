@@ -1,0 +1,24 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Beatbot Pool Robot einrichten",
+        "description": "Melde dich mit deinem Beatbot-Konto an.",
+        "data": {
+          "email": "E-Mail",
+          "password": "Passwort",
+          "region": "Region",
+          "country_code": "Ländercode (z.B. DE, US)"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Ungültige E-Mail oder Passwort.",
+      "cannot_connect": "Verbindung zum Beatbot-Server fehlgeschlagen.",
+      "unknown": "Unbekannter Fehler."
+    },
+    "abort": {
+      "already_configured": "Dieses Konto ist bereits eingerichtet."
+    }
+  }
+}

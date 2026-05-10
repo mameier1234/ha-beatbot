@@ -1,0 +1,11 @@
+{
+  "domain": "beatbot",
+  "name": "Beatbot Pool Robot",
+  "version": "0.1.0",
+  "documentation": "https://github.com/your-repo/ha-beatbot",
+  "config_flow": true,
+  "iot_class": "cloud_polling",
+  "requirements": [],
+  "codeowners": [],
+  "homeassistant": "2024.1.0"
+}
