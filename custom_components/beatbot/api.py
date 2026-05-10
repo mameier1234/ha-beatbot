@@ -1,16 +1,20 @@
 """Beatbot API-Client mit HMAC-SHA256-Signierung."""
 from __future__ import annotations
 
+import base64
 import hashlib
 import hmac
 import json
 import logging
+import os
 import time
 import urllib.parse
 from dataclasses import dataclass
 from typing import Any
 
 import aiohttp
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives import padding as crypto_padding
 
 from .const import (
     ACCESS_ID,
@@ -24,6 +28,19 @@ _LOGGER = logging.getLogger(__name__)
 
 APP_VERSION = "4.0.0.1"
 DEVICE_ID = "homeassistant-beatbot-integration"
+_AES_SALT = b"BEATBOT"
+
+
+def _encrypt_password(password: str) -> str:
+    """AES-256-CBC encrypt wie KeyUtil.encrypt(password, 'BEATBOT') in der App."""
+    key = hashlib.sha256(_AES_SALT).digest()
+    iv = os.urandom(16)
+    padder = crypto_padding.PKCS7(128).padder()
+    padded = padder.update(password.encode("utf-8")) + padder.finalize()
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
+    enc = cipher.encryptor()
+    ct = enc.update(padded) + enc.finalize()
+    return base64.b64encode(iv + ct).decode("utf-8")
 
 
 @dataclass
@@ -134,7 +151,7 @@ class BeatbotAPI:
 
     async def login(self, email: str, password: str, country_code: str) -> None:
         path = "/api/auth/login/email-password"
-        body = {"email": email, "password": password, "countryCode": country_code}
+        body = {"email": email, "password": _encrypt_password(password), "countryCode": country_code}
         data = await self._request("POST", path, body=body)
         if "data" not in data:
             raise BeatbotAuthError(f"Login fehlgeschlagen: {data}")
